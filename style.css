@@ -1,0 +1,780 @@
+/* ==========================================================================
+   PIANO LEARNING APP - MODERN GLASSMORPHIC DARK STYLES
+   ========================================================================== */
+
+:root {
+    --bg-main: #0a0e17;
+    --bg-card: rgba(18, 24, 38, 0.75);
+    --bg-card-border: rgba(255, 255, 255, 0.08);
+    --bg-card-hover: rgba(30, 41, 59, 0.7);
+    
+    --primary: #38bdf8;
+    --primary-glow: rgba(56, 189, 248, 0.4);
+    --accent: #f59e0b;
+    --accent-glow: rgba(245, 158, 11, 0.4);
+    --success: #10b981;
+    --danger: #ef4444;
+
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+
+    --key-white-bg: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 85%, #cbd5e1 100%);
+    --key-white-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 -4px 0 #94a3b8;
+    --key-white-active: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
+
+    --key-black-bg: linear-gradient(to bottom, #334155 0%, #1e293b 40%, #0f172a 100%);
+    --key-black-shadow: 0 6px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 0 #020617;
+    --key-black-active: linear-gradient(to bottom, #1e293b 0%, #090d16 100%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* App Header & Brand */
+.app-header {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--bg-card-border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    font-size: 26px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.brand-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Nav Tabs */
+.nav-tabs {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--bg-card-border);
+}
+
+.nav-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-tab-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-tab-btn.active {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+}
+
+/* Header Utilities */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--bg-card-border);
+    color: var(--text-muted);
+}
+
+.status-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+}
+
+.status-badge.connected .dot {
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+}
+
+.status-badge.connected {
+    color: #d1fae5;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.disconnected .dot {
+    background: var(--accent);
+}
+
+.quick-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.quick-control input[type="range"] {
+    accent-color: var(--primary);
+    cursor: pointer;
+    width: 75px;
+}
+
+/* Main Layout */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+    gap: 16px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Upper Workspace / Tab Panels */
+.tab-content-panel {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.tab-content-panel.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Visualizer & Song Stage */
+.stage-container {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    background: #090d16;
+}
+
+#falling-notes-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.stage-toolbar {
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid var(--bg-card-border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.song-selector-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-select, .form-input {
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+}
+
+.form-select:focus, .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn {
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    box-shadow: 0 2px 12px rgba(37, 99, 235, 0.4);
+}
+
+.btn-secondary {
+    background: #1e293b;
+    color: #e2e8f0;
+    border: 1px solid var(--bg-card-border);
+}
+
+.btn-secondary:hover {
+    background: #334155;
+    color: #ffffff;
+}
+
+.btn-accent {
+    background: #d97706;
+    color: #ffffff;
+}
+
+.btn-accent:hover {
+    background: #b45309;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Live Stats Strip */
+.stats-strip {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.stat-pill {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--bg-card-border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-label {
+    color: var(--text-dim);
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.stat-val {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Song Info Card */
+.song-info-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(30, 41, 59, 0.5);
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--bg-card-border);
+    font-size: 13px;
+}
+
+.song-info-meta {
+    display: flex;
+    gap: 16px;
+    color: var(--text-muted);
+}
+
+.song-info-meta span strong {
+    color: #ffffff;
+}
+
+/* Sheet Music Staff Stage */
+.staff-stage-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.staff-canvas-box {
+    width: 100%;
+    max-width: 900px;
+    height: 220px;
+    background: #090d16;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+}
+
+#sheet-music-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Academy Grid Cards */
+.academy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.academy-card {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.card-display-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: monospace;
+    font-size: 13px;
+    color: var(--primary);
+}
+
+/* Piano Section Wrapper */
+.piano-section {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--bg-card-border);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Piano Bar (Chord HUD + Options) */
+.piano-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.chord-hud {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.chord-hud-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+}
+
+.chord-hud-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 0 12px var(--primary-glow);
+}
+
+.chord-hud-notes {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.piano-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pedal-btn {
+    background: #1e293b;
+    border: 1px solid var(--bg-card-border);
+    color: var(--text-muted);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.pedal-btn.pedal-active {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 0 12px var(--accent-glow);
+    border-color: var(--accent);
+}
+
+/* ==========================================================================
+   VIRTUAL PIANO KEYBOARD ENGINE
+   ========================================================================== */
+
+.piano-wrapper {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+}
+
+.piano-keyboard {
+    position: relative;
+    display: flex;
+    height: 190px;
+    margin: 0 auto;
+    width: fit-content;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-radius: 0 0 8px 8px;
+    background: #020617;
+    border-top: 5px solid #0f172a;
+}
+
+.piano-white-keys {
+    display: flex;
+    height: 100%;
+}
+
+.piano-black-keys {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* White Key */
+.piano-key.white {
+    position: relative;
+    width: 38px;
+    height: 100%;
+    background: var(--key-white-bg);
+    border: 1px solid #94a3b8;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: var(--key-white-shadow);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 8px;
+    transition: transform 0.05s ease, background 0.05s ease;
+    z-index: 1;
+}
+
+.piano-key.white:hover {
+    background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 100%);
+}
+
+.piano-key.white.active {
+    background: var(--key-white-active);
+    transform: translateY(3px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 0 14px rgba(56, 189, 248, 0.4);
+    border-color: #38bdf8;
+}
+
+/* Black Key */
+.piano-key.black {
+    position: absolute;
+    width: 24px;
+    height: 60%;
+    background: var(--key-black-bg);
+    border-radius: 0 0 4px 4px;
+    box-shadow: var(--key-black-shadow);
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 6px;
+    pointer-events: auto;
+    z-index: 2;
+    transition: transform 0.05s ease, background 0.05s ease;
+}
+
+.piano-key.black:hover {
+    background: linear-gradient(to bottom, #475569 0%, #1e293b 100%);
+}
+
+.piano-key.black.active {
+    background: var(--key-black-active);
+    transform: translateX(-50%) translateY(3px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.6), inset 0 0 10px rgba(56, 189, 248, 0.6);
+    border: 1px solid #38bdf8;
+}
+
+/* Target Note / Practice Mode Highlight */
+.piano-key.target-key {
+    background: linear-gradient(to bottom, #fef08a 0%, #facc15 100%) !important;
+    box-shadow: 0 0 18px rgba(250, 204, 21, 0.9) !important;
+    animation: targetGlow 0.8s ease-in-out infinite alternate;
+}
+
+.piano-key.black.target-key {
+    background: linear-gradient(to bottom, #854d0e 0%, #ca8a04 100%) !important;
+    box-shadow: 0 0 16px rgba(250, 204, 21, 0.9) !important;
+}
+
+@keyframes targetGlow {
+    from { filter: brightness(1.0); }
+    to { filter: brightness(1.3); }
+}
+
+/* Explorer Highlight (Chords / Scales) */
+.piano-key.explorer-highlight {
+    background: linear-gradient(to bottom, #bfdbfe 0%, #60a5fa 100%) !important;
+    box-shadow: 0 0 14px rgba(96, 165, 250, 0.8) !important;
+}
+
+.piano-key.black.explorer-highlight {
+    background: linear-gradient(to bottom, #1e3a8a 0%, #2563eb 100%) !important;
+    box-shadow: 0 0 14px rgba(96, 165, 250, 0.8) !important;
+}
+
+/* Middle C Pip */
+.piano-key.middle-c::after {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    width: 6px;
+    height: 6px;
+    background: #ef4444;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #ef4444;
+}
+
+/* Key Labels */
+.key-label {
+    font-size: 10px;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.piano-key.white .key-label {
+    color: #475569;
+}
+
+.piano-key.black .key-label {
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+.piano-key.active .key-label {
+    color: #0284c7;
+}
+
+/* Game Feedback Banners */
+.feedback-box {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.feedback-neutral { color: var(--text-muted); }
+.feedback-success { color: var(--success); }
+.feedback-error { color: var(--danger); }
+
+/* Recordings List */
+.recordings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.recording-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--bg-card-border);
+}
+
+.rec-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rec-info span {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+.rec-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.rec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    display: inline-block;
+}
+
+.rec-dot.pulsing {
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(0.9); opacity: 0.6; }
+    to { transform: scale(1.2); opacity: 1; }
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .app-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    .piano-key.white {
+        width: 30px;
+    }
+    .piano-key.black {
+        width: 18px;
+    }
+    .stage-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
